@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nir/model/models.dart';
+import 'dart:math';
 
 class TemperatureDetector extends StatelessWidget implements Blocks {
   TemperatureDetector({
     Key? key,
     required String name,
-    required this.someLiquid,
+    this.someLiquid,
+    required this.someFfr,
+    required this.requiredTemperature,
     required koefOfTransit,
   })  : _name = name,
         _koefOfTransit = koefOfTransit,
@@ -17,18 +20,26 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
   final String _name;
   double _koefOfTransit;
   Liquid? someLiquid;
+  FluidFlowRegulator someFfr;
+  double requiredTemperature;
   double temperature;
   double pressure;
   Color _color;
 
+  @override
   void updateState() {
     temperature = someLiquid!.temperature;
     calculateNewKoef();
+    updateFFR(someFfr);
     _color = _setColor(temperature);
   }
 
   void calculateNewKoef() {
     _koefOfTransit = _koefOfTransit;
+  }
+
+  void updateFFR(FluidFlowRegulator someFfr) {
+    someFfr.koefOfTransit = _koefOfTransit;
   }
 
   @override
@@ -39,7 +50,11 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
       height: 60,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Text(_name), Text('${temperature.toString()} C')],
+        children: [
+          Text(_name),
+          Text('${temperature.toString()} C'),
+          Text('k = ${_koefOfTransit.toString()}'),
+        ],
       ),
     );
   }

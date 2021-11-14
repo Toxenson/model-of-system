@@ -21,6 +21,7 @@ abstract class Pipes {
   Liquid? someLiquid;
   double pressure = 0.0;
   double temperature = 0.0;
+  void updateState();
 }
 
 abstract class CanUpdatePipes {
@@ -33,6 +34,7 @@ abstract class Blocks {
   double pressure = 0.0;
   double temperature = 0.0;
   static var dt = 0.5;
+  void updateState();
 }
 
 abstract class CanUpdateBlocks {

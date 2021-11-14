@@ -7,7 +7,7 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
       required String name,
       required double alf,
       required double beta,
-      required Liquid? someLiquid,
+      Liquid? this.someLiquid,
       double outsideTemperature = 80})
       : _alf = alf,
         _beta = beta,
@@ -30,6 +30,7 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
   double pressure;
   Color _color;
 
+  @override
   void updateState() {
     mass = someLiquid!.mass;
     pressure = findPressForHE(someLiquid!.pressure, _beta, outsideTemperature,

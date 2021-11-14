@@ -28,8 +28,11 @@ class ModelPreviewScreen extends StatelessWidget {
         TemperatureDetector(
           name: 'Temperature Detector',
           someLiquid: someLiquid,
+          someFfr: FluidFlowRegulator(name: 'FFR'),
+          requiredTemperature: 40,
           koefOfTransit: 0.2,
         ),
+        FluidFlowRegulator(name: 'FFR'),
         // Container(
         //   height: 40,
         //   width: 40,
