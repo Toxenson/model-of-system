@@ -3,3 +3,4 @@ export '../model/pipe.dart';
 export '../model/throttle.dart';
 export '../model/heat_exchanger.dart';
 export '../model/fluid_flow_regulator.dart';
+export '../model/temperature_detector.dart';

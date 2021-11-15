@@ -3,13 +3,13 @@ import '../model/model_base_classes.dart';
 class Pipe implements Pipes, CanUpdateBlocks {
   Pipe({
     required String name,
-    this.someLiquid,
+    this.liquid,
   })  : _name = name,
-        pressure = someLiquid!.pressure,
-        temperature = someLiquid.temperature;
+        pressure = liquid!.pressure,
+        temperature = liquid.temperature;
 
   final String _name;
-  Liquid? someLiquid;
+  Liquid? liquid;
   double pressure;
   double temperature;
   static const conectionWeiht = 3.0;
@@ -18,8 +18,8 @@ class Pipe implements Pipes, CanUpdateBlocks {
 
   @override
   void updateState() {
-    pressure = someLiquid!.pressure;
-    temperature = someLiquid!.temperature;
+    pressure = liquid!.pressure;
+    temperature = liquid!.temperature;
   }
 
   @override
@@ -28,7 +28,7 @@ class Pipe implements Pipes, CanUpdateBlocks {
 
   @override
   void blockUpdate(Blocks block) {
-    block.someLiquid = someLiquid;
+    block.liquid = liquid;
     block.updateState();
   }
 }

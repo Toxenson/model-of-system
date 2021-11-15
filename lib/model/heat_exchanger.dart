@@ -7,23 +7,23 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
       required String name,
       required double alf,
       required double beta,
-      Liquid? this.someLiquid,
+      this.liquid,
       double outsideTemperature = 80})
       : _alf = alf,
         _beta = beta,
         _name = name,
-        mass = someLiquid!.mass,
-        pressure = findPressForHE(someLiquid.pressure, beta, outsideTemperature,
-            Blocks.dt, someLiquid.mass, someLiquid.temperature, alf),
+        mass = liquid!.mass,
+        pressure = findPressForHE(liquid.pressure, beta, outsideTemperature,
+            Blocks.dt, liquid.mass, liquid.temperature, alf),
         temperature = findTempForHE(beta, outsideTemperature, Blocks.dt,
-            someLiquid.mass, someLiquid.temperature),
-        _color = _setColor(someLiquid.temperature),
+            liquid.mass, liquid.temperature),
+        _color = _setColor(liquid.temperature),
         super(key: key);
 
   final String _name;
   final double _alf;
   final double _beta;
-  Liquid? someLiquid;
+  Liquid? liquid;
   double outsideTemperature = 80;
   double mass;
   double temperature;
@@ -32,18 +32,19 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
 
   @override
   void updateState() {
-    mass = someLiquid!.mass;
-    pressure = findPressForHE(someLiquid!.pressure, _beta, outsideTemperature,
-        Blocks.dt, someLiquid!.mass, someLiquid!.temperature, _alf);
+    mass = liquid!.mass;
+    pressure = findPressForHE(liquid!.pressure, _beta, outsideTemperature,
+        Blocks.dt, liquid!.mass, liquid!.temperature, _alf);
     temperature = findTempForHE(_beta, outsideTemperature, Blocks.dt,
-        someLiquid!.mass, someLiquid!.temperature);
-    _color = _setColor(someLiquid!.temperature);
+        liquid!.mass, liquid!.temperature);
+    _color = _setColor(liquid!.temperature);
   }
 
   @override
   void pipesUpdate(List<Pipes> pipes) {
     var pipe = pipes[0];
-    pipe.someLiquid = someLiquid;
+    pipe.liquid = liquid;
+    pipe.updateState();
   }
 
   @override

@@ -32,8 +32,10 @@ class FluidFlowRegulator extends StatelessWidget implements CanUpdatePipes {
   void pipesUpdate(List<Pipes> pipes) {
     var pipe1 = pipes[0];
     var pipe2 = pipes[1];
-    pipe1.someLiquid = outputLiquid1;
-    pipe2.someLiquid = outputLiquid2;
+    pipe1.liquid = outputLiquid1;
+    pipe2.liquid = outputLiquid2;
+    pipe1.updateState();
+    pipe2.updateState();
     // pipe2.mass = koefOfTransit * pipe4.mass + (1 - koefOfTransit) * pipe1.mass;
     // pipe3.mass = koefOfTransit * pipe1.mass + (1 - koefOfTransit) * pipe4.mass;
     // pipe2.temperature = (pipe4.temperature * pipe4.mass * koefOfTransit +
@@ -49,8 +51,8 @@ class FluidFlowRegulator extends StatelessWidget implements CanUpdatePipes {
   }
 
   void updateState(List<Pipes> pipes) {
-    inputLiquid1 = pipes[0].someLiquid;
-    inputLiquid2 = pipes[1].someLiquid;
+    inputLiquid1 = pipes[0].liquid;
+    inputLiquid2 = pipes[1].liquid;
     outputLiquid1!.mass = koefOfTransit * inputLiquid2!.mass +
         (1 - koefOfTransit) * inputLiquid1!.mass;
     outputLiquid2!.mass = koefOfTransit * inputLiquid1!.mass +

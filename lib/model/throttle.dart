@@ -7,19 +7,19 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
     Key? key,
     required double acceptablePressure,
     required String name,
-    this.someLiquid,
+    this.liquid,
   })  : _acceptablePressure = acceptablePressure,
         _name = name,
-        pressure = findPressForTH(someLiquid!.pressure, acceptablePressure),
+        pressure = findPressForTH(liquid!.pressure, acceptablePressure),
         temperature = findTempForTH(
-            someLiquid.temperature, someLiquid.pressure, acceptablePressure),
-        mass = someLiquid.mass,
-        _color = _setColor(someLiquid.temperature),
+            liquid.temperature, liquid.pressure, acceptablePressure),
+        mass = liquid.mass,
+        _color = _setColor(liquid.temperature),
         super(key: key);
 
   final double _acceptablePressure;
   final String _name;
-  Liquid? someLiquid;
+  Liquid? liquid;
   double pressure;
   double temperature;
   double mass;
@@ -27,17 +27,18 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
 
   @override
   void updateState() {
-    pressure = findPressForTH(someLiquid!.pressure, _acceptablePressure);
+    pressure = findPressForTH(liquid!.pressure, _acceptablePressure);
     temperature = findTempForTH(
-        someLiquid!.temperature, someLiquid!.pressure, _acceptablePressure);
-    mass = someLiquid!.mass;
-    _color = _setColor(someLiquid!.temperature);
+        liquid!.temperature, liquid!.pressure, _acceptablePressure);
+    mass = liquid!.mass;
+    _color = _setColor(liquid!.temperature);
   }
 
   @override
   void pipesUpdate(List<Pipes> pipes) {
     var pipe = pipes[0];
-    pipe.someLiquid = someLiquid;
+    pipe.liquid = liquid;
+    pipe.updateState();
   }
 
   @override

@@ -24,8 +24,8 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
         title: const Text('Model'),
       ),
       floatingActionButton: FloatingActionButton(
-        child: playButton(),
         onPressed: _onPlayTapped,
+        child: playButton(),
       ),
       // body: IndexedStack(
       //   index: _selectedTab,

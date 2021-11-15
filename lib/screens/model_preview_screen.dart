@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:nir/model/model.dart';
 import 'package:nir/model/models.dart';
 import 'package:nir/model/temperature_detector.dart';
 
 class ModelPreviewScreen extends StatelessWidget {
-  final someLiquid = Liquid(
-    mass: 20,
-    temperature: 53,
-    pressure: 2000,
-  );
-
+  const ModelPreviewScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Throttle(
-          acceptablePressure: 1324,
-          name: 'Throttle',
-          someLiquid: someLiquid,
-        ),
-        HeatExchanger(
-          name: 'Heat Exchanger',
-          alf: 5,
-          beta: 5,
-          someLiquid: someLiquid,
-        ),
-        TemperatureDetector(
-          name: 'Temperature Detector',
-          someLiquid: someLiquid,
-          someFfr: FluidFlowRegulator(name: 'FFR'),
-          requiredTemperature: 40,
-          koefOfTransit: 0.2,
-        ),
-        FluidFlowRegulator(name: 'FFR'),
+    return ModelWidget()
+        // child: Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Throttle(
+        //       acceptablePressure: 1324,
+        //       name: 'Throttle',
+        //       someLiquid: someLiquid,
+        //     ),
+        //     HeatExchanger(
+        //       name: 'Heat Exchanger',
+        //       alf: 5,
+        //       beta: 5,
+        //       someLiquid: someLiquid,
+        //     ),
+        //     TemperatureDetector(
+        //       name: 'Temperature Detector',
+        //       someLiquid: someLiquid,
+        //       someFfr: FluidFlowRegulator(name: 'FFR'),
+        //       requiredTemperature: 40,
+        //       koefOfTransit: 0.2,
+        //     ),
+        //     FluidFlowRegulator(name: 'FFR'),
         // Container(
         //   height: 40,
         //   width: 40,
@@ -89,7 +86,8 @@ class ModelPreviewScreen extends StatelessWidget {
         //   max: 255,
         //   divisions: 2550,
         // ),
-      ],
-    );
+        //   ],
+        // ),
+        ;
   }
 }

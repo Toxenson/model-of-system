@@ -6,21 +6,21 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
   TemperatureDetector({
     Key? key,
     required String name,
-    this.someLiquid,
-    required this.someFfr,
-    required this.requiredTemperature,
-    required koefOfTransit,
+    this.liquid,
+    this.ffr,
+    required double this.requiredTemperature,
+    required double koefOfTransit,
   })  : _name = name,
         _koefOfTransit = koefOfTransit,
-        temperature = someLiquid!.temperature,
-        pressure = someLiquid.pressure,
-        _color = _setColor(someLiquid.temperature),
+        temperature = liquid!.temperature,
+        pressure = liquid.pressure,
+        _color = _setColor(liquid.temperature),
         super(key: key);
 
   final String _name;
   double _koefOfTransit;
-  Liquid? someLiquid;
-  FluidFlowRegulator someFfr;
+  Liquid? liquid;
+  FluidFlowRegulator? ffr;
   double requiredTemperature;
   double temperature;
   double pressure;
@@ -28,9 +28,9 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
 
   @override
   void updateState() {
-    temperature = someLiquid!.temperature;
+    temperature = liquid!.temperature;
     calculateNewKoef();
-    updateFFR(someFfr);
+    updateFFR(ffr!);
     _color = _setColor(temperature);
   }
 
@@ -61,10 +61,10 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
 }
 
 Color _setColor(double temp) {
-  if (temp <= 40) {
+  if (temp <= 40.0) {
     return const Color.fromRGBO(0, 255, 0, 1);
   }
-  if ((temp > 40) && (temp < 80)) {
+  if ((temp > 40.0) && (temp < 80.0)) {
     return const Color.fromRGBO(255, 255, 0, 1);
   } else {
     return const Color.fromRGBO(255, 0, 0, 1);
