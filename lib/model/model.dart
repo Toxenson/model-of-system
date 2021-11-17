@@ -133,7 +133,7 @@ class Model {
       // ffr.updateState([pipes[3], pipes[6]]);
       ffr.pipesUpdate([pipes[3], pipes[6], pipes[0], pipes[5]]);
       var dt = await Future<double>.delayed(
-        Duration(milliseconds: dt_seted * 1000 ~/ 2),
+        Duration(milliseconds: Blocks.dt * 1000 ~/ 2),
         () => dt_seted,
       );
       t = t + dt;

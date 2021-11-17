@@ -45,7 +45,7 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
 
   @override
   Widget build(BuildContext context) {
-    return TimerBuilder.periodic(Duration(milliseconds: 20),
+    return TimerBuilder.periodic(Duration(milliseconds: Blocks.dt * 1000 ~/ 2),
         builder: (context) {
       return Container(
         color: _color,
