@@ -18,10 +18,9 @@ double findTempForTH(
     findPressForTH(pressure, acceptablePressure) * temperature / pressure;
 
 abstract class Pipes {
-  Liquid? liquid;
   double pressure = 0.0;
   double temperature = 0.0;
-  void updateState();
+  double mass = 0.0;
 }
 
 abstract class CanUpdatePipes {
@@ -30,9 +29,9 @@ abstract class CanUpdatePipes {
 }
 
 abstract class Blocks {
-  Liquid? liquid;
   double pressure = 0.0;
   double temperature = 0.0;
+  double mass = 0.0;
   static var dt = 0.5;
   void updateState();
 }

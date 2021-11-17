@@ -7,23 +7,19 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
       required String name,
       required double alf,
       required double beta,
-      this.liquid,
+      required this.pressure,
+      required this.temperature,
+      required this.mass,
       double outsideTemperature = 80})
       : _alf = alf,
         _beta = beta,
         _name = name,
-        mass = liquid!.mass,
-        pressure = findPressForHE(liquid.pressure, beta, outsideTemperature,
-            Blocks.dt, liquid.mass, liquid.temperature, alf),
-        temperature = findTempForHE(beta, outsideTemperature, Blocks.dt,
-            liquid.mass, liquid.temperature),
-        _color = _setColor(liquid.temperature),
+        _color = _setColor(temperature),
         super(key: key);
 
   final String _name;
   final double _alf;
   final double _beta;
-  Liquid? liquid;
   double outsideTemperature = 80;
   double mass;
   double temperature;
@@ -32,19 +28,22 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
 
   @override
   void updateState() {
-    mass = liquid!.mass;
-    pressure = findPressForHE(liquid!.pressure, _beta, outsideTemperature,
-        Blocks.dt, liquid!.mass, liquid!.temperature, _alf);
-    temperature = findTempForHE(_beta, outsideTemperature, Blocks.dt,
-        liquid!.mass, liquid!.temperature);
-    _color = _setColor(liquid!.temperature);
+    // mass = liquid!.mass;
+    // pressure = findPressForHE(liquid!.pressure, _beta, outsideTemperature,
+    //     Blocks.dt, liquid!.mass, liquid!.temperature, _alf);
+    // temperature = findTempForHE(_beta, outsideTemperature, Blocks.dt,
+    //     liquid!.mass, liquid!.temperature);
+    // _color = _setColor(liquid!.temperature);
   }
 
   @override
   void pipesUpdate(List<Pipes> pipes) {
     var pipe = pipes[0];
-    pipe.liquid = liquid;
-    pipe.updateState();
+    pipe.pressure = findPressForHE(pressure, _beta, outsideTemperature,
+        Blocks.dt, mass, temperature, _alf);
+    pipe.temperature =
+        findTempForHE(_beta, outsideTemperature, Blocks.dt, mass, temperature);
+    pipe.mass = mass;
   }
 
   @override

@@ -20,14 +20,9 @@ class _ModelPreviewScreenState extends State<ModelPreviewScreen> {
   @override
   Widget build(BuildContext context) {
     Model model = widget.manager.model;
-    // model.runModel();
+    model.runModel();
     return Center(
-      child: Container(
-        width: 600,
-        height: 600,
-        color: Colors.green[50],
-        child: model.td,
-      ),
+      child: model.td,
     );
     // child: Column(
     //   mainAxisAlignment: MainAxisAlignment.center,

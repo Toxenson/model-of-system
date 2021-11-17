@@ -2,33 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:nir/model/models.dart';
 import 'dart:math';
 
+import 'package:timer_builder/timer_builder.dart';
+
 class TemperatureDetector extends StatelessWidget implements Blocks {
   TemperatureDetector({
     Key? key,
     required String name,
-    this.liquid,
+    required this.pressure,
+    required this.temperature,
+    required this.mass,
     this.ffr,
     required double this.requiredTemperature,
     required double koefOfTransit,
   })  : _name = name,
         _koefOfTransit = koefOfTransit,
-        temperature = liquid!.temperature,
-        pressure = liquid.pressure,
-        _color = _setColor(liquid.temperature),
+        _color = _setColor(temperature),
         super(key: key);
 
   final String _name;
   double _koefOfTransit;
-  Liquid? liquid;
   FluidFlowRegulator? ffr;
   double requiredTemperature;
   double temperature;
   double pressure;
+  double mass;
   Color _color;
 
   @override
   void updateState() {
-    temperature = liquid!.temperature;
     calculateNewKoef();
     updateFFR(ffr!);
     _color = _setColor(temperature);
@@ -44,21 +45,78 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: _color,
-      width: 140,
-      height: 60,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(_name),
-          Text('${temperature.toString()} C'),
-          Text('k = ${_koefOfTransit.toString()}'),
-        ],
-      ),
-    );
+    return TimerBuilder.periodic(Duration(milliseconds: 20),
+        builder: (context) {
+      return Container(
+        color: _color,
+        width: 140,
+        height: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_name),
+            Text('${temperature.toString()} C'),
+            Text('k = ${_koefOfTransit.toString()}'),
+          ],
+        ),
+      );
+    });
+    // return Container(
+    //   color: _color,
+    //   width: 140,
+    //   height: 60,
+    //   child: Column(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     children: [
+    //       Text(_name),
+    //       Text('${temperature.toString()} C'),
+    //       Text('k = ${_koefOfTransit.toString()}'),
+    //     ],
+    //   ),
+    // );
   }
 }
+
+// class TemperatureDetectorWidget extends StatefulWidget {
+//   TemperatureDetectorWidget({
+//     Key? key,
+//     required this.name,
+//     required this.color,
+//     required this.temperature,
+//     required this.koefOfTransit,
+//   }) : super(key: key);
+
+//   String name;
+//   Color color;
+//   double temperature;
+//   double koefOfTransit;
+
+//   @override
+//   State<TemperatureDetectorWidget> createState() =>
+//       _TemperatureDetectorWidgetState();
+// }
+
+// class _TemperatureDetectorWidgetState extends State<TemperatureDetectorWidget> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return TimerBuilder.periodic(Duration(milliseconds: 20),
+//         builder: (context) {
+//       return Container(
+//         color: widget.color,
+//         width: 140,
+//         height: 60,
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Text(widget.name),
+//             Text('${widget.temperature.toString()} C'),
+//             Text('k = ${widget.koefOfTransit.toString()}'),
+//           ],
+//         ),
+//       );
+//     });
+//   }
+// }
 
 Color _setColor(double temp) {
   if (temp <= 40.0) {
