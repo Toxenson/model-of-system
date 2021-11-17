@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:nir/model/model.dart';
+import 'package:nir/model/model_manager.dart';
 import 'package:nir/screens/model_details_screen.dart';
 import 'package:nir/screens/model_preview_screen.dart';
 
 class ModelHomeScreen extends StatefulWidget {
-  const ModelHomeScreen({Key? key}) : super(key: key);
+  const ModelHomeScreen({
+    Key? key,
+    required this.onCreate,
+    required this.manager,
+  }) : super(key: key);
+
+  final Function(Model) onCreate;
+  final ModelManager manager;
 
   @override
   State<ModelHomeScreen> createState() => _ModelHomeScreenState();
@@ -11,14 +20,14 @@ class ModelHomeScreen extends StatefulWidget {
 
 class _ModelHomeScreenState extends State<ModelHomeScreen> {
   int _selectedTab = 0;
-  bool play = true;
-  static List<Widget> pages = <Widget>[
-    ModelPreviewScreen(),
-    ModelDetailsScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = <Widget>[
+      ModelPreviewScreen(
+        manager: widget.manager,
+      ),
+      ModelDetailsScreen(),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text('Model'),
@@ -51,7 +60,7 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
   }
 
   Widget playButton() {
-    if (play) {
+    if (widget.manager.play) {
       return const Icon(Icons.play_arrow);
     } else {
       return const Icon(Icons.pause);
@@ -59,9 +68,8 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
   }
 
   void _onPlayTapped() {
-    setState(() {
-      play = !play;
-    });
+    widget.manager.pauseModel();
+    setState(() {});
   }
 
   void _onItemTapped(int index) {

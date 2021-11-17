@@ -141,6 +141,9 @@ class Model {
   ];
 
   void runModel() {
+    td.ffr = ffr;
+    ffr.outputLiquid1 = pipes[0].liquid;
+    ffr.outputLiquid2 = pipes[0].liquid;
     while (isPlayed) {
       pipes[0].blockUpdate(th1);
       pipes[4].blockUpdate(th2);

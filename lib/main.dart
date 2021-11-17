@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nir/model/model_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:nir/home.dart';
 
 void main() {
@@ -16,7 +18,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ModelManager()),
+        ],
+        child: HomeScreen(),
+      ),
     );
   }
 }
