@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:nir/model/model_manager.dart';
 import 'package:nir/painting/arrows.dart';
 import '../model/models.dart';
 
 class Model {
-  Model._();
+  ModelManager? manager;
+
   static final Model _instance = Model._();
-  factory Model() => _instance;
-  bool isPlayed = true;
+  Model._();
+  factory Model({ModelManager? manager}) {
+    _instance.manager = manager;
+    return _instance;
+  }
+
   final ffr = FluidFlowRegulator(
     name: 'FFR',
   );
@@ -17,6 +23,7 @@ class Model {
     mass: 20,
     temperature: 20,
     pressure: 2000,
+    outsideTemperature: 50,
   );
   final he2 = HeatExchanger(
     name: 'HE2',
@@ -25,6 +32,7 @@ class Model {
     mass: 20,
     temperature: 20,
     pressure: 2000,
+    outsideTemperature: 50,
   );
   final he3 = HeatExchanger(
     name: 'HE3',
@@ -33,7 +41,7 @@ class Model {
     mass: 20,
     temperature: 20,
     pressure: 2000,
-    outsideTemperature: 0,
+    outsideTemperature: -10,
   );
   final td = TemperatureDetector(
     name: 'TD',
@@ -103,6 +111,21 @@ class Model {
     ),
   ];
 
+  void restartModel() {
+    pipes[0] = Pipe(
+      name: 'Pipe1',
+      mass: 20,
+      temperature: 20,
+      pressure: 2000,
+    );
+    pipes[4] = Pipe(
+      name: 'Pipe1',
+      mass: 20,
+      temperature: 20,
+      pressure: 2000,
+    );
+  }
+
   void runModel() async {
     td.ffr = ffr;
     double t = 0;
@@ -111,13 +134,12 @@ class Model {
     // final broadcastStreem =
     // ffr.outputLiquid1 = pipes[0].liquid;
     // ffr.outputLiquid2 = pipes[0].liquid;
-    while (isPlayed) {
+    while (manager!.play) {
       pipes[0].blockUpdate(th1);
       pipes[4].blockUpdate(th2);
       print(td.temperature);
 
       th1.pipesUpdate([pipes[1]]);
-
       th2.pipesUpdate([pipes[5]]);
 
       pipes[1].blockUpdate(td);
@@ -134,9 +156,9 @@ class Model {
       he2.pipesUpdate([pipes[3]]);
 
       // ffr.updateState([pipes[3], pipes[6]]);
-      ffr.pipesUpdate([pipes[3], pipes[6], pipes[0], pipes[5]]);
+      ffr.pipesUpdate([pipes[3], pipes[6], pipes[0], pipes[4]]);
       var dt = await Future<double>.delayed(
-        Duration(milliseconds: Blocks.dt * 1000 ~/ 2),
+        Duration(milliseconds: Blocks.dt * 1000 ~/ 1),
         () => dt_seted,
       );
       t = t + dt;

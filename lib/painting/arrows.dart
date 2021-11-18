@@ -11,9 +11,9 @@ class Arrow extends StatelessWidget {
   Arrow({
     Key? key,
     required this.side,
-    double? height = 20,
-    double? width = 20,
-    double strokeWidth = 5,
+    double? height = 10,
+    double? width = 10,
+    double strokeWidth = 3,
   })  : _strokeWidth = strokeWidth,
         _height = height,
         _width = width,

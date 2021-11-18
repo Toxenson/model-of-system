@@ -16,6 +16,7 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
     required double koefOfTransit,
   })  : _name = name,
         _koefOfTransit = koefOfTransit,
+        koef = koefOfTransit,
         _color = _setColor(temperature),
         super(key: key);
 
@@ -26,7 +27,10 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
   double temperature;
   double pressure;
   double mass;
+  double koef;
   Color _color;
+
+  String get name => _name;
 
   @override
   void updateState() {
@@ -36,7 +40,12 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
   }
 
   void calculateNewKoef() {
-    _koefOfTransit = _koefOfTransit;
+    if (temperature > requiredTemperature) {
+      _koefOfTransit = 1 / (1 + exp(-(temperature / requiredTemperature)));
+    } else {
+      _koefOfTransit = 0;
+    }
+    koef = _koefOfTransit;
   }
 
   void updateFFR(FluidFlowRegulator someFfr) {
@@ -45,18 +54,18 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
 
   @override
   Widget build(BuildContext context) {
-    return TimerBuilder.periodic(Duration(milliseconds: Blocks.dt * 1000 ~/ 2),
-        builder: (context) {
+    return TimerBuilder.periodic(
+        Duration(milliseconds: Blocks.dtForUpdateWidgets), builder: (context) {
       return Container(
         color: _color,
-        width: 140,
+        width: 60,
         height: 60,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(_name),
-            Text('${temperature.toString()} C'),
-            Text('k = ${_koefOfTransit.toString()}'),
+            Text('${temperature.toStringAsFixed(3)} C'),
+            Text('k = ${_koefOfTransit.toStringAsFixed(3)}'),
           ],
         ),
       );

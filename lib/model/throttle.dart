@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timer_builder/timer_builder.dart';
 
 import '../model/model_base_classes.dart';
 
@@ -22,6 +23,7 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
   double pressure;
   double temperature;
   double mass;
+  double koef = 0.0;
   Color _color;
 
   @override
@@ -43,16 +45,22 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: _color,
-      width: 60,
-      height: 60,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Text(_name), Text('${temperature.toString()} C')],
-      ),
-    );
+    return TimerBuilder.periodic(
+        Duration(milliseconds: Blocks.dtForUpdateWidgets), builder: (context) {
+      return Container(
+        color: _color,
+        width: 60,
+        height: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text(_name), Text('${temperature.toStringAsFixed(3)} C')],
+        ),
+      );
+    });
   }
+
+  @override
+  String get name => _name;
 }
 
 Color _setColor(double temp) {

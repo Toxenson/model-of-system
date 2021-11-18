@@ -23,10 +23,8 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = <Widget>[
-      ModelPreviewScreen(
-        manager: widget.manager,
-      ),
-      ModelDetailsScreen(),
+      ModelPreviewScreen(manager: widget.manager),
+      ModelDetailsScreen(manager: widget.manager),
     ];
     return WillPopScope(
       onWillPop: _onBackPressed,
@@ -38,11 +36,7 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
           onPressed: _onPlayTapped,
           child: playButton(),
         ),
-        // body: IndexedStack(
-        //   index: _selectedTab,
-        //   children: ModelHomeScreen.pages,
-        // ),
-        body: pages[_selectedTab],
+        body: IndexedStack(index: _selectedTab, children: pages),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor:
               Theme.of(context).textSelectionTheme.selectionColor,
@@ -78,6 +72,7 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
 
   Future<bool> _onBackPressed() {
     widget.manager.pauseModel();
+    widget.manager.restartModel();
     Navigator.of(context).pop(true);
     var a = Future<bool>(() => true);
     return a;

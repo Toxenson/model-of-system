@@ -23,15 +23,17 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 final manager =
                     Provider.of<ModelManager>(context, listen: false);
+                final model = Model(manager: manager);
+                manager.setModel(model);
+                manager.restartModel();
+                manager.playModel();
+                manager.model.runModel();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ModelHomeScreen(
                       manager: manager,
                       onCreate: (model) {
-                        final model = Model();
-                        manager.updateModel(model);
-                        manager.playModel();
                         Navigator.pop(context);
                       },
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nir/model/models.dart';
+import 'package:timer_builder/timer_builder.dart';
 
 class FluidFlowRegulator extends StatelessWidget implements CanUpdatePipes {
   FluidFlowRegulator({
@@ -97,18 +98,23 @@ class FluidFlowRegulator extends StatelessWidget implements CanUpdatePipes {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 60,
-      height: 60,
-      color: Colors.green,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(_name),
-          Text(koefOfTransit.toString()),
-        ],
-      ),
+    return TimerBuilder.periodic(
+      Duration(milliseconds: Blocks.dtForUpdateWidgets),
+      builder: (context) {
+        return Container(
+          width: 140,
+          height: 60,
+          color: Colors.green,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(_name),
+              Text(koefOfTransit.toStringAsFixed(3)),
+            ],
+          ),
+        );
+      },
     );
   }
 }
