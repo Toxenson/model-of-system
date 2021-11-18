@@ -28,39 +28,43 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
       ),
       ModelDetailsScreen(),
     ];
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Model'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onPlayTapped,
-        child: playButton(),
-      ),
-      // body: IndexedStack(
-      //   index: _selectedTab,
-      //   children: ModelHomeScreen.pages,
-      // ),
-      body: pages[_selectedTab],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
-        currentIndex: _selectedTab,
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Preview',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.analytics),
-            label: 'Details',
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Model'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _onPlayTapped,
+          child: playButton(),
+        ),
+        // body: IndexedStack(
+        //   index: _selectedTab,
+        //   children: ModelHomeScreen.pages,
+        // ),
+        body: pages[_selectedTab],
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor:
+              Theme.of(context).textSelectionTheme.selectionColor,
+          currentIndex: _selectedTab,
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              label: 'Preview',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.analytics),
+              label: 'Details',
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget playButton() {
-    if (widget.manager.play) {
+    if (!widget.manager.play) {
       return const Icon(Icons.play_arrow);
     } else {
       return const Icon(Icons.pause);
@@ -68,8 +72,15 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
   }
 
   void _onPlayTapped() {
-    widget.manager.pauseModel();
+    widget.manager.playPauseModel();
     setState(() {});
+  }
+
+  Future<bool> _onBackPressed() {
+    widget.manager.pauseModel();
+    Navigator.of(context).pop(true);
+    var a = Future<bool>(() => true);
+    return a;
   }
 
   void _onItemTapped(int index) {

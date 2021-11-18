@@ -3,6 +3,9 @@ import 'package:nir/painting/arrows.dart';
 import '../model/models.dart';
 
 class Model {
+  Model._();
+  static final Model _instance = Model._();
+  factory Model() => _instance;
   bool isPlayed = true;
   final ffr = FluidFlowRegulator(
     name: 'FFR',

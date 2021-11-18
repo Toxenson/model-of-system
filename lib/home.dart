@@ -10,7 +10,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = Model();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Model'),
@@ -30,7 +29,10 @@ class HomeScreen extends StatelessWidget {
                     builder: (context) => ModelHomeScreen(
                       manager: manager,
                       onCreate: (model) {
+                        final model = Model();
                         manager.updateModel(model);
+                        manager.playModel();
+                        Navigator.pop(context);
                       },
                     ),
                   ),

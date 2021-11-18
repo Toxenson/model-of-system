@@ -15,8 +15,20 @@ class ModelManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pauseModel() {
+  void playPauseModel() {
     _play = !_play;
+    model.isPlayed = _play;
+    notifyListeners();
+  }
+
+  void playModel() {
+    _play = true;
+    model.isPlayed = _play;
+    notifyListeners();
+  }
+
+  void pauseModel() {
+    _play = false;
     model.isPlayed = _play;
     notifyListeners();
   }
