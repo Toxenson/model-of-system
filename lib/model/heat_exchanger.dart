@@ -11,22 +11,21 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
       required this.pressure,
       required this.temperature,
       required this.mass,
-      double outsideTemperature = 80})
+      this.outsideTemperature = 80})
       : _alf = alf,
         _beta = beta,
         _name = name,
         _color = _setColor(temperature),
-        _outsideTemperature = outsideTemperature,
         super(key: key);
 
   final String _name;
   final double _alf;
   final double _beta;
-  final double _outsideTemperature;
   double mass;
   double temperature;
   double pressure;
   double koef = 0.0;
+  double outsideTemperature;
   Color _color;
 
   @override
@@ -42,10 +41,10 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
   @override
   void pipesUpdate(List<Pipes> pipes) {
     var pipe = pipes[0];
-    pipe.pressure = findPressForHE(pressure, _beta, _outsideTemperature,
+    pipe.pressure = findPressForHE(pressure, _beta, outsideTemperature,
         Blocks.dt, mass, temperature, _alf);
     pipe.temperature =
-        findTempForHE(_beta, _outsideTemperature, Blocks.dt, mass, temperature);
+        findTempForHE(_beta, outsideTemperature, Blocks.dt, mass, temperature);
     pipe.mass = mass;
   }
 
@@ -55,7 +54,9 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
       Duration(milliseconds: Blocks.dtForUpdateWidgets),
       builder: (context) {
         return Container(
-          color: _color,
+          decoration: BoxDecoration(
+              color: _color,
+              borderRadius: const BorderRadius.all(Radius.circular(8.0))),
           width: 100,
           height: 60,
           child: Column(

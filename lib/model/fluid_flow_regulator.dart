@@ -104,13 +104,15 @@ class FluidFlowRegulator extends StatelessWidget implements CanUpdatePipes {
         return Container(
           width: 140,
           height: 60,
-          color: Colors.green,
+          decoration: const BoxDecoration(
+              color: Colors.green,
+              borderRadius: const BorderRadius.all(Radius.circular(8.0))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(_name),
-              Text(koefOfTransit.toStringAsFixed(3)),
+              Text(koefOfTransit.toStringAsFixed(2)),
             ],
           ),
         );

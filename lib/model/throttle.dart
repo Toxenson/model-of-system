@@ -24,6 +24,7 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
   double temperature;
   double mass;
   double koef = 0.0;
+  double outsideTemperature = 0.0;
   Color _color;
 
   @override
@@ -48,7 +49,9 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
     return TimerBuilder.periodic(
         Duration(milliseconds: Blocks.dtForUpdateWidgets), builder: (context) {
       return Container(
-        color: _color,
+        decoration: BoxDecoration(
+            color: _color,
+            borderRadius: const BorderRadius.all(Radius.circular(8.0))),
         width: 60,
         height: 60,
         child: Column(

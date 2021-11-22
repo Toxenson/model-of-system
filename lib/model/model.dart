@@ -32,7 +32,7 @@ class Model {
     mass: 20,
     temperature: 20,
     pressure: 2000,
-    outsideTemperature: 50,
+    outsideTemperature: 70,
   );
   final he3 = HeatExchanger(
     name: 'HE3',
@@ -45,7 +45,8 @@ class Model {
   );
   final td = TemperatureDetector(
     name: 'TD',
-    requiredTemperature: 40,
+    requiredTemperatureMin: 20,
+    requiredTemperatureMax: 60,
     koefOfTransit: 0,
     mass: 20,
     temperature: 20,
@@ -137,7 +138,7 @@ class Model {
     while (manager!.play) {
       pipes[0].blockUpdate(th1);
       pipes[4].blockUpdate(th2);
-      print(td.temperature);
+      print(he1.runtimeType);
 
       th1.pipesUpdate([pipes[1]]);
       th2.pipesUpdate([pipes[5]]);

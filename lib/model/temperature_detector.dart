@@ -12,7 +12,8 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
     required this.temperature,
     required this.mass,
     this.ffr,
-    required double this.requiredTemperature,
+    required this.requiredTemperatureMin,
+    required this.requiredTemperatureMax,
     required double koefOfTransit,
   })  : _name = name,
         _koefOfTransit = koefOfTransit,
@@ -22,12 +23,18 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
 
   final String _name;
   double _koefOfTransit;
+  double _storedKoefOfTransit = 0;
   FluidFlowRegulator? ffr;
-  double requiredTemperature;
+  double requiredTemperatureMin;
+  double requiredTemperatureMax;
+  double storedTemperature = 0;
+  int counter = 0;
+  int counterMax = 9;
   double temperature;
   double pressure;
   double mass;
   double koef;
+  double outsideTemperature = 0.0;
   Color _color;
 
   String get name => _name;
@@ -40,12 +47,49 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
   }
 
   void calculateNewKoef() {
-    if (temperature > requiredTemperature) {
-      _koefOfTransit = 1 / (1 + exp(-(temperature / requiredTemperature)));
-    } else {
-      _koefOfTransit = 0;
+    int delta = (temperature - storedTemperature).toInt().sign;
+    delta = (delta == 0) ? 1 : delta;
+    _koefOfTransit = _storedKoefOfTransit;
+    double speed = 0.99 / counterMax;
+    print('delta $delta');
+    print('temperature $temperature');
+    print('storedTemperature $storedTemperature');
+    if ((temperature > requiredTemperatureMax) && (delta == 1)) {
+      _koefOfTransit = speed * counter;
+      counter += 1;
+      if (counter > counterMax) {
+        counter = counterMax;
+      }
+      storedTemperature = temperature;
+      return;
     }
-    koef = _koefOfTransit;
+    if ((temperature > requiredTemperatureMin) && (delta == -1)) {
+      _koefOfTransit = speed * counter;
+      counter += 1;
+      if (counter > counterMax) {
+        counter = counterMax;
+      }
+      storedTemperature = temperature;
+      return;
+    }
+    if ((temperature < requiredTemperatureMin) && (delta == -1)) {
+      _koefOfTransit = speed * counter;
+      counter -= 1;
+      if (counter < 0) {
+        counter = 0;
+      }
+      storedTemperature = temperature;
+      return;
+    }
+    if ((temperature < requiredTemperatureMax) && (delta == 1)) {
+      _koefOfTransit = speed * counter;
+      counter -= 1;
+      if (counter < 0) {
+        counter = 0;
+      }
+      storedTemperature = temperature;
+      return;
+    }
   }
 
   void updateFFR(FluidFlowRegulator someFfr) {
@@ -57,8 +101,10 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
     return TimerBuilder.periodic(
         Duration(milliseconds: Blocks.dtForUpdateWidgets), builder: (context) {
       return Container(
-        color: _color,
-        width: 60,
+        decoration: BoxDecoration(
+            color: _color,
+            borderRadius: const BorderRadius.all(Radius.circular(8.0))),
+        width: 80,
         height: 60,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,62 +116,8 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
         ),
       );
     });
-    // return Container(
-    //   color: _color,
-    //   width: 140,
-    //   height: 60,
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     children: [
-    //       Text(_name),
-    //       Text('${temperature.toString()} C'),
-    //       Text('k = ${_koefOfTransit.toString()}'),
-    //     ],
-    //   ),
-    // );
   }
 }
-
-// class TemperatureDetectorWidget extends StatefulWidget {
-//   TemperatureDetectorWidget({
-//     Key? key,
-//     required this.name,
-//     required this.color,
-//     required this.temperature,
-//     required this.koefOfTransit,
-//   }) : super(key: key);
-
-//   String name;
-//   Color color;
-//   double temperature;
-//   double koefOfTransit;
-
-//   @override
-//   State<TemperatureDetectorWidget> createState() =>
-//       _TemperatureDetectorWidgetState();
-// }
-
-// class _TemperatureDetectorWidgetState extends State<TemperatureDetectorWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return TimerBuilder.periodic(Duration(milliseconds: 20),
-//         builder: (context) {
-//       return Container(
-//         color: widget.color,
-//         width: 140,
-//         height: 60,
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text(widget.name),
-//             Text('${widget.temperature.toString()} C'),
-//             Text('k = ${widget.koefOfTransit.toString()}'),
-//           ],
-//         ),
-//       );
-//     });
-//   }
-// }
 
 Color _setColor(double temp) {
   if (temp <= 40.0) {

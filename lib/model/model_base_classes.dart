@@ -34,7 +34,8 @@ abstract class Blocks {
   double temperature = 0.0;
   double mass = 0.0;
   double koef = 0.0;
-  static var dt = 0.5;
+  double outsideTemperature = 0.0;
+  static var dt = 0.5; // in seconds
   static var dtForUpdateWidgets = dt * 1000 ~/ 16; // in milliseconds
   void updateState();
   String get name => _name;

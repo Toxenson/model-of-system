@@ -53,11 +53,45 @@ class _BlockTileState extends State<BlockTile> {
 
 List<Widget> paramsWidget(List<bool> params, Blocks block) {
   List<Widget> parametrs = [];
+  final _outsideTemperatureController = TextEditingController();
   if (params[0]) {
     parametrs.add(TimerBuilder.periodic(
         Duration(milliseconds: Blocks.dtForUpdateWidgets), builder: (context) {
       return Text('Температура: ${block.temperature.toStringAsFixed(3)} °C');
     }));
+  }
+  if (block.runtimeType.toString() == 'HeatExchanger') {
+    parametrs.add(
+      Row(
+        children: [
+          const Text('Температура снаружи:'),
+          const SizedBox(width: 10),
+          Container(
+            height: 20,
+            width: 40,
+            child: TextField(
+              controller: _outsideTemperatureController,
+              onEditingComplete: () {
+                block.outsideTemperature =
+                    double.parse(_outsideTemperatureController.text);
+              },
+              decoration: InputDecoration(
+                hintText: block.outsideTemperature.toString(),
+                enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                border: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
   if (params[1]) {
     parametrs.add(const SizedBox(height: 5));
@@ -82,3 +116,10 @@ List<Widget> paramsWidget(List<bool> params, Blocks block) {
   }
   return parametrs;
 }
+
+
+// void _changeOutsideTemp() {
+//   void _change(Blocks block){
+//     block.outsideTemperature = _ou
+//   }
+// }

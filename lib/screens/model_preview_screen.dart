@@ -29,7 +29,7 @@ class _ModelPreviewScreenState extends State<ModelPreviewScreen> {
       60,
       60,
       60,
-      60,
+      80,
       60,
       100,
       60,
@@ -200,7 +200,7 @@ List<Widget> insideContour(List<double> sizes, model) {
     ),
     Positioned(
       top: edgeInsert,
-      left: edgeInsert + wightHe + 20,
+      left: edgeInsert + wightHe + 10,
       child: model.td,
     ),
     Positioned(

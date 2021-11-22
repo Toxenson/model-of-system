@@ -42,16 +42,6 @@ class HomeScreen extends StatelessWidget {
               },
               child: const Text('Start'),
             ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ModelSettingScreen()));
-              },
-              child: const Text('Settings'),
-            ),
           ],
         ),
       ),
