@@ -20,8 +20,8 @@ class ModelPreviewScreen extends StatefulWidget {
 class _ModelPreviewScreenState extends State<ModelPreviewScreen> {
   @override
   Widget build(BuildContext context) {
-    Model model = widget.manager.model;
-    List<double> sizes = [
+    ModelKnr modelKNR = widget.manager.model;
+    List<double> sizesKNR = [
       16,
       600,
       500,
@@ -35,21 +35,21 @@ class _ModelPreviewScreenState extends State<ModelPreviewScreen> {
       60,
     ];
 
-    final inside = insideContour(sizes, model);
-    final outside = outsideContour(sizes, model);
+    final inside = insideContourKNR(sizesKNR, modelKNR);
+    final outside = outsideContourKNR(sizesKNR, modelKNR);
     return Center(
       child: Container(
-        height: sizes[2],
-        width: sizes[1],
+        height: sizesKNR[2],
+        width: sizesKNR[1],
         color: Colors.green[50],
         child: Stack(
           children: inside +
               outside +
               [
                 Positioned(
-                  bottom: sizes[0],
-                  left: sizes[1] / 2 - sizes[3] / 2,
-                  child: model.ffr,
+                  bottom: sizesKNR[0],
+                  left: sizesKNR[1] / 2 - sizesKNR[3] / 2,
+                  child: modelKNR.ffr,
                 )
               ],
         ),
@@ -116,7 +116,7 @@ class HorizontalStick extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-List<Widget> insideContour(List<double> sizes, model) {
+List<Widget> insideContourKNR(List<double> sizes, model) {
   double? edgeInsert = sizes[0];
   double? widthCanvas = sizes[1];
   double? heightCanvas = sizes[2];
@@ -232,9 +232,30 @@ List<Widget> insideContour(List<double> sizes, model) {
     ),
     Positioned(
       left: widthCanvas / 2 - widthFfr / 3,
-      bottom: heightFfr + heightTh + edgeInsert + 26,
+      bottom: heightFfr + heightTh + heightTh + 65,
       child: SizedBox(
-        height: 198,
+        height: 114,
+        width: 10,
+        child: CustomPaint(
+          foregroundPainter: VerticalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      bottom: heightFfr + edgeInsert + heightTh + 48,
+      left: widthCanvas / 2 - widthFfr / 2,
+      child: model.pu1,
+    ),
+    Positioned(
+      left: widthCanvas / 2 - widthFfr / 3,
+      bottom: heightFfr + edgeInsert + heightTh + 37,
+      child: Arrow(side: Side.up),
+    ),
+    Positioned(
+      left: widthCanvas / 2 - widthFfr / 3,
+      bottom: heightFfr + edgeInsert + heightTh + 27,
+      child: SizedBox(
+        height: 20,
         width: 10,
         child: CustomPaint(
           foregroundPainter: VerticalStick(),
@@ -265,7 +286,7 @@ List<Widget> insideContour(List<double> sizes, model) {
   ];
 }
 
-List<Widget> outsideContour(List<double> sizes, model) {
+List<Widget> outsideContourKNR(List<double> sizes, model) {
   double? edgeInsert = sizes[0];
   double? widthCanvas = sizes[1];
   double? heightCanvas = sizes[2];
@@ -339,9 +360,30 @@ List<Widget> outsideContour(List<double> sizes, model) {
     ),
     Positioned(
       right: widthCanvas / 2 - widthFfr / 3,
-      bottom: heightFfr + heightTh + edgeInsert + 26,
+      bottom: heightFfr + heightTh + heightTh + 65,
       child: SizedBox(
-        height: 198,
+        height: 114,
+        width: 10,
+        child: CustomPaint(
+          foregroundPainter: VerticalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      bottom: heightFfr + edgeInsert + heightTh + 48,
+      right: widthCanvas / 2 - widthFfr / 2,
+      child: model.pu2,
+    ),
+    Positioned(
+      right: widthCanvas / 2 - widthFfr / 3,
+      bottom: heightFfr + edgeInsert + heightTh + 37,
+      child: Arrow(side: Side.up),
+    ),
+    Positioned(
+      right: widthCanvas / 2 - widthFfr / 3,
+      bottom: heightFfr + edgeInsert + heightTh + 27,
+      child: SizedBox(
+        height: 20,
         width: 10,
         child: CustomPaint(
           foregroundPainter: VerticalStick(),

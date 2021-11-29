@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 double findTempForHE(double beta, double outsideTemperature, double dt,
         double mass, double temperature) =>
     beta * outsideTemperature * dt / mass -
@@ -21,6 +23,7 @@ abstract class Pipes {
   double pressure = 0.0;
   double temperature = 0.0;
   double mass = 0.0;
+  double koefPressure = 0.2;
 }
 
 abstract class CanUpdatePipes {
@@ -54,6 +57,20 @@ class Liquid {
   double mass;
   double temperature;
   double pressure;
+}
+
+Color setColorOfTemperature(double temp) {
+  if (temp <= 0) {
+    return const Color.fromRGBO(0, 180, 255, 1);
+  }
+  if ((temp > 0) && (temp <= 40)) {
+    return const Color.fromRGBO(0, 255, 0, 1);
+  }
+  if ((temp > 40) && (temp < 80)) {
+    return const Color.fromRGBO(255, 255, 0, 1);
+  } else {
+    return const Color.fromRGBO(255, 0, 0, 1);
+  }
 }
 
 // class Pipe implements Pipes, CanUpdateBlocks {

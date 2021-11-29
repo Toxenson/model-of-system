@@ -18,7 +18,7 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
   })  : _name = name,
         _koefOfTransit = koefOfTransit,
         koef = koefOfTransit,
-        _color = _setColor(temperature),
+        _color = setColorOfTemperature(temperature),
         super(key: key);
 
   final String _name;
@@ -43,7 +43,7 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
   void updateState() {
     calculateNewKoef();
     updateFFR(ffr!);
-    _color = _setColor(temperature);
+    _color = setColorOfTemperature(temperature);
   }
 
   void calculateNewKoef() {
@@ -51,11 +51,13 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
     delta = (delta == 0) ? 1 : delta;
     _koefOfTransit = _storedKoefOfTransit;
     double speed = 0.99 / counterMax;
+    final random = Random();
+    final koef = 0.00;
     print('delta $delta');
     print('temperature $temperature');
     print('storedTemperature $storedTemperature');
     if ((temperature > requiredTemperatureMax) && (delta == 1)) {
-      _koefOfTransit = speed * counter;
+      _koefOfTransit = speed * counter + random.nextDouble() * koef;
       counter += 1;
       if (counter > counterMax) {
         counter = counterMax;
@@ -64,7 +66,7 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
       return;
     }
     if ((temperature > requiredTemperatureMin) && (delta == -1)) {
-      _koefOfTransit = speed * counter;
+      _koefOfTransit = speed * counter + random.nextDouble() * koef;
       counter += 1;
       if (counter > counterMax) {
         counter = counterMax;
@@ -73,19 +75,21 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
       return;
     }
     if ((temperature < requiredTemperatureMin) && (delta == -1)) {
-      _koefOfTransit = speed * counter;
+      _koefOfTransit = speed * counter + random.nextDouble() * koef;
       counter -= 1;
       if (counter < 0) {
         counter = 0;
+        // _koefOfTransit = 0;
       }
       storedTemperature = temperature;
       return;
     }
     if ((temperature < requiredTemperatureMax) && (delta == 1)) {
-      _koefOfTransit = speed * counter;
+      _koefOfTransit = speed * counter + random.nextDouble() * koef;
       counter -= 1;
       if (counter < 0) {
         counter = 0;
+        // _koefOfTransit = 0;
       }
       storedTemperature = temperature;
       return;
@@ -116,16 +120,5 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
         ),
       );
     });
-  }
-}
-
-Color _setColor(double temp) {
-  if (temp <= 40.0) {
-    return const Color.fromRGBO(0, 255, 0, 1);
-  }
-  if ((temp > 40.0) && (temp < 80.0)) {
-    return const Color.fromRGBO(255, 255, 0, 1);
-  } else {
-    return const Color.fromRGBO(255, 0, 0, 1);
   }
 }

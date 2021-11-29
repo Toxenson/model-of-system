@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 final manager =
                     Provider.of<ModelManager>(context, listen: false);
-                final model = Model(manager: manager);
+                final model = ModelKnr(manager: manager);
                 manager.setModel(model);
                 manager.restartModel();
                 manager.playModel();

@@ -15,7 +15,7 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
         _name = name,
         pressure = findPressForTH(pressure, acceptablePressure),
         temperature = findTempForTH(temperature, pressure, acceptablePressure),
-        _color = _setColor(temperature),
+        _color = setColorOfTemperature(temperature),
         super(key: key);
 
   final double _acceptablePressure;
@@ -32,7 +32,7 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
     pressure = findPressForTH(pressure, _acceptablePressure);
     temperature = findTempForTH(temperature, pressure, _acceptablePressure);
     mass = mass;
-    _color = _setColor(temperature);
+    _color = setColorOfTemperature(temperature);
   }
 
   @override
@@ -64,15 +64,4 @@ class Throttle extends StatelessWidget implements Blocks, CanUpdatePipes {
 
   @override
   String get name => _name;
-}
-
-Color _setColor(double temp) {
-  if (temp <= 40) {
-    return const Color.fromRGBO(0, 255, 0, 1);
-  }
-  if ((temp > 40) && (temp < 80)) {
-    return const Color.fromRGBO(255, 255, 0, 1);
-  } else {
-    return const Color.fromRGBO(255, 0, 0, 1);
-  }
 }

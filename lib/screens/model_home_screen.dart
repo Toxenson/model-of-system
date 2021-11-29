@@ -11,7 +11,7 @@ class ModelHomeScreen extends StatefulWidget {
     required this.manager,
   }) : super(key: key);
 
-  final Function(Model) onCreate;
+  final Function(ModelKnr) onCreate;
   final ModelManager manager;
 
   @override

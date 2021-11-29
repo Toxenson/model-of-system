@@ -3,19 +3,19 @@ import '../model/model_base_classes.dart';
 import 'package:timer_builder/timer_builder.dart';
 
 class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
-  HeatExchanger(
-      {Key? key,
-      required String name,
-      required double alf,
-      required double beta,
-      required this.pressure,
-      required this.temperature,
-      required this.mass,
-      this.outsideTemperature = 80})
-      : _alf = alf,
+  HeatExchanger({
+    Key? key,
+    required String name,
+    required double alf,
+    required double beta,
+    required this.pressure,
+    required this.temperature,
+    required this.mass,
+    this.outsideTemperature = 80,
+  })  : _alf = alf,
         _beta = beta,
         _name = name,
-        _color = _setColor(temperature),
+        _color = setColorOfTemperature(temperature),
         super(key: key);
 
   final String _name;
@@ -35,7 +35,7 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
     //     Blocks.dt, liquid!.mass, liquid!.temperature, _alf);
     // temperature = findTempForHE(_beta, outsideTemperature, Blocks.dt,
     //     liquid!.mass, liquid!.temperature);
-    _color = _setColor(temperature);
+    _color = setColorOfTemperature(temperature);
   }
 
   @override
@@ -83,15 +83,4 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
 //         _beta, outsideTemperature, Blocks.dt, mass, temperature);
 //     pipe.mass = mass;
 //   }
-}
-
-Color _setColor(double temp) {
-  if (temp <= 40) {
-    return const Color.fromRGBO(0, 255, 0, 1);
-  }
-  if ((temp > 40) && (temp < 80)) {
-    return const Color.fromRGBO(255, 255, 0, 1);
-  } else {
-    return const Color.fromRGBO(255, 0, 0, 1);
-  }
 }

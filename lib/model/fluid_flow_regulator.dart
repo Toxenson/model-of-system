@@ -76,6 +76,15 @@ class FluidFlowRegulator extends StatelessWidget implements CanUpdatePipes {
   //       (1 - koefOfTransit) * inputLiquid2!.pressure;
   // }
 
+  /// Схема работы РРЖ
+  ///  ВМ  ^       ^  НМ
+  /// pipe2|       |pipe3
+  ///      +-------+
+  ///      |  РРЖ  |
+  ///      +-------+
+  ///  ВМ  ^       ^  НМ
+  /// pipe1|       |pipe4
+
   @override
   void pipesUpdate(List<Pipes> pipes) {
     var pipe1 = pipes[0];
