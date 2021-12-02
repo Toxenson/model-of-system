@@ -53,9 +53,9 @@ class TemperatureDetector extends StatelessWidget implements Blocks {
     double speed = 0.99 / counterMax;
     final random = Random();
     final koef = 0.00;
-    print('delta $delta');
-    print('temperature $temperature');
-    print('storedTemperature $storedTemperature');
+    // print('delta $delta');
+    // print('temperature $temperature');
+    // print('storedTemperature $storedTemperature');
     if ((temperature > requiredTemperatureMax) && (delta == 1)) {
       _koefOfTransit = speed * counter + random.nextDouble() * koef;
       counter += 1;

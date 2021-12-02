@@ -24,25 +24,25 @@ class _ModelDetailsScreenState extends State<ModelDetailsScreen> {
             children: [
               const Text('Внутренний контур'),
               BlockTile(
-                block: widget.manager.model.he1,
+                block: widget.manager.modelKnr.he1,
                 temperature: true,
                 pressure: true,
               ),
               const SizedBox(height: 10),
               BlockTile(
-                block: widget.manager.model.he2,
+                block: widget.manager.modelKnr.he2,
                 temperature: true,
                 pressure: true,
               ),
               const SizedBox(height: 10),
               BlockTile(
-                block: widget.manager.model.td,
+                block: widget.manager.modelKnr.td,
                 temperature: true,
                 koef: true,
               ),
               const SizedBox(height: 10),
               BlockTile(
-                block: widget.manager.model.th1,
+                block: widget.manager.modelKnr.th1,
                 temperature: true,
                 pressure: true,
               )
@@ -55,13 +55,13 @@ class _ModelDetailsScreenState extends State<ModelDetailsScreen> {
             children: [
               const Text('Наружний контур'),
               BlockTile(
-                block: widget.manager.model.he3,
+                block: widget.manager.modelKnr.he3,
                 temperature: true,
                 pressure: true,
               ),
               const SizedBox(height: 10),
               BlockTile(
-                block: widget.manager.model.th2,
+                block: widget.manager.modelKnr.th2,
                 temperature: true,
                 pressure: true,
               ),

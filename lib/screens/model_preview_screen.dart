@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nir/model/model.dart';
+import 'package:nir/model/model_knr.dart';
+import 'package:nir/model/model_kzo.dart';
 import 'package:nir/model/model_manager.dart';
 import 'package:nir/model/models.dart';
 import 'package:nir/model/temperature_detector.dart';
@@ -20,7 +21,8 @@ class ModelPreviewScreen extends StatefulWidget {
 class _ModelPreviewScreenState extends State<ModelPreviewScreen> {
   @override
   Widget build(BuildContext context) {
-    ModelKnr modelKNR = widget.manager.model;
+    ModelKnr modelKnr = widget.manager.modelKnr;
+    ModelKzo modelKzo = widget.manager.modelKzo;
     List<double> sizesKNR = [
       16,
       600,
@@ -35,23 +37,37 @@ class _ModelPreviewScreenState extends State<ModelPreviewScreen> {
       60,
     ];
 
-    final inside = insideContourKNR(sizesKNR, modelKNR);
-    final outside = outsideContourKNR(sizesKNR, modelKNR);
+    final inside = insideContourKNR(sizesKNR, modelKnr);
+    final outside = outsideContourKNR(sizesKNR, modelKnr);
+    final kzo = kzoContour(modelKzo);
     return Center(
       child: Container(
-        height: sizesKNR[2],
-        width: sizesKNR[1],
-        color: Colors.green[50],
+        height: sizesKNR[2] + 100,
+        width: sizesKNR[1] + 500,
+        // color: Colors.blueGrey,
         child: Stack(
-          children: inside +
-              outside +
-              [
+          children: [
                 Positioned(
-                  bottom: sizesKNR[0],
-                  left: sizesKNR[1] / 2 - sizesKNR[3] / 2,
-                  child: modelKNR.ffr,
-                )
-              ],
+                  top: 30,
+                  left: 350,
+                  child: Container(
+                    height: sizesKNR[2],
+                    width: sizesKNR[1],
+                    child: Stack(
+                      children: inside +
+                          outside +
+                          [
+                            Positioned(
+                              bottom: sizesKNR[0],
+                              left: sizesKNR[1] / 2 - sizesKNR[3] / 2,
+                              child: modelKnr.ffr,
+                            )
+                          ],
+                    ),
+                  ),
+                ),
+              ] +
+              kzo,
         ),
       ),
     );
@@ -163,7 +179,7 @@ List<Widget> insideContourKNR(List<double> sizes, model) {
     ),
     Positioned(
       left: edgeInsert + wightHe / 2 - 5,
-      top: edgeInsert + heightTd + heightHe + 185,
+      top: edgeInsert + heightTd + heightHe + 184,
       child: Arrow(side: Side.down),
     ),
     Positioned(
@@ -199,20 +215,20 @@ List<Widget> insideContourKNR(List<double> sizes, model) {
       ),
     ),
     Positioned(
-      top: edgeInsert,
+      top: edgeInsert + heightTd * 3,
       left: edgeInsert + wightHe + 10,
       child: model.td,
     ),
     Positioned(
       left: edgeInsert + wightHe * (1.5) - 5,
-      top: heightTd + edgeInsert + 1,
-      child: Arrow(side: Side.up),
+      top: heightTd * 3 + edgeInsert - 12,
+      child: Arrow(side: Side.down),
     ),
     Positioned(
       left: edgeInsert + wightHe * (1.5) - 5,
-      top: heightTd + edgeInsert + 2,
+      top: heightTd * 2 + edgeInsert + 4,
       child: SizedBox(
-        height: 61,
+        height: 55,
         width: 10,
         child: CustomPaint(
           foregroundPainter: VerticalStick(),
@@ -410,6 +426,207 @@ List<Widget> outsideContourKNR(List<double> sizes, model) {
           foregroundPainter: VerticalStick(),
         ),
       ),
+    ),
+  ];
+}
+
+List<Positioned> kzoContour(ModelKzo modelKzo) {
+  return [
+    Positioned(
+      top: 60,
+      right: 680,
+      child: SizedBox(
+        height: 90,
+        width: 10,
+        child: CustomPaint(
+          foregroundPainter: VerticalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 55,
+      right: 510,
+      child: SizedBox(
+        height: 10,
+        width: 174,
+        child: CustomPaint(
+          foregroundPainter: HorizontalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 30,
+      right: 450,
+      child: modelKzo.pu1,
+    ),
+    Positioned(
+      top: 55,
+      right: 439,
+      child: Arrow(side: Side.left),
+    ),
+    Positioned(
+      top: 55,
+      right: 360,
+      child: SizedBox(
+        height: 10,
+        width: 89,
+        child: CustomPaint(
+          foregroundPainter: HorizontalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 30,
+      right: 300,
+      child: modelKzo.th1,
+    ),
+    Positioned(
+      top: 55,
+      right: 289,
+      child: Arrow(side: Side.left),
+    ),
+    Positioned(
+      top: 55,
+      right: 100,
+      child: SizedBox(
+        height: 10,
+        width: 199,
+        child: CustomPaint(
+          foregroundPainter: HorizontalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 60,
+      right: 95,
+      child: SizedBox(
+        height: 250,
+        width: 10,
+        child: CustomPaint(
+          foregroundPainter: VerticalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 300,
+      right: 50,
+      child: modelKzo.he4,
+    ),
+    Positioned(
+      bottom: 195,
+      right: 95,
+      child: Arrow(side: Side.up),
+    ),
+    Positioned(
+      bottom: 29,
+      right: 95,
+      child: SizedBox(
+        height: 178,
+        width: 10,
+        child: CustomPaint(
+          foregroundPainter: VerticalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      bottom: 22,
+      left: 250,
+      child: SizedBox(
+        height: 10,
+        width: 750,
+        child: CustomPaint(
+          foregroundPainter: HorizontalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 360,
+      left: 245,
+      child: SizedBox(
+        height: 180,
+        width: 10,
+        child: CustomPaint(
+          foregroundPainter: VerticalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 300,
+      left: 200,
+      child: modelKzo.he3,
+    ),
+    Positioned(
+      top: 325,
+      left: 189,
+      child: Arrow(side: Side.right),
+    ),
+    Positioned(
+      top: 325,
+      left: 140,
+      child: SizedBox(
+        height: 10,
+        width: 59,
+        child: CustomPaint(
+          foregroundPainter: HorizontalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 300,
+      left: 40,
+      child: modelKzo.he2,
+    ),
+    Positioned(
+      top: 289,
+      left: 85,
+      child: Arrow(side: Side.down),
+    ),
+    Positioned(
+      top: 200,
+      left: 85,
+      child: SizedBox(
+        height: 99,
+        width: 10,
+        child: CustomPaint(
+          foregroundPainter: VerticalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 140,
+      left: 40,
+      child: modelKzo.he1,
+    ),
+    Positioned(
+      top: 165,
+      left: 141,
+      child: Arrow(side: Side.left),
+    ),
+    Positioned(
+      top: 165,
+      left: 140,
+      child: SizedBox(
+        height: 10,
+        width: 225,
+        child: CustomPaint(
+          foregroundPainter: HorizontalStick(),
+        ),
+      ),
+    ),
+    Positioned(
+      top: 130,
+      left: 365,
+      child: modelKzo.lhe,
+    ),
+    Positioned(
+      top: 165,
+      left: 466,
+      child: Arrow(side: Side.left),
+    ),
+    Positioned(
+      top: 119,
+      right: 680,
+      child: Arrow(side: Side.down),
     ),
   ];
 }

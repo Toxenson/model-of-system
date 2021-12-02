@@ -11,7 +11,7 @@ class HeatExchanger extends StatelessWidget implements Blocks, CanUpdatePipes {
     required this.pressure,
     required this.temperature,
     required this.mass,
-    this.outsideTemperature = 80,
+    required this.outsideTemperature,
   })  : _alf = alf,
         _beta = beta,
         _name = name,

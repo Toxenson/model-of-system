@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:nir/model/model_kzo.dart';
 import 'package:nir/model/model_manager.dart';
 import 'package:nir/screens/model_home_screen.dart';
 import 'package:nir/screens/model_settings_screen.dart';
 import 'package:provider/provider.dart';
-import '../model/model.dart';
+import 'model/model_knr.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,11 +24,11 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 final manager =
                     Provider.of<ModelManager>(context, listen: false);
-                final model = ModelKnr(manager: manager);
-                manager.setModel(model);
+                final modelKnr = ModelKnr(manager: manager);
+                final modelKzo = ModelKzo(manager: manager);
+                manager.setModel(modelKnr, modelKzo);
                 manager.restartModel();
                 manager.playModel();
-                manager.model.runModel();
                 Navigator.push(
                   context,
                   MaterialPageRoute(

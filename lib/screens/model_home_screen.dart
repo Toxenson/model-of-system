@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nir/model/model.dart';
+import 'package:nir/model/model_knr.dart';
 import 'package:nir/model/model_manager.dart';
 import 'package:nir/screens/model_details_screen.dart';
 import 'package:nir/screens/model_preview_screen.dart';
@@ -72,7 +72,6 @@ class _ModelHomeScreenState extends State<ModelHomeScreen> {
 
   Future<bool> _onBackPressed() {
     widget.manager.pauseModel();
-    widget.manager.restartModel();
     Navigator.of(context).pop(true);
     var a = Future<bool>(() => true);
     return a;

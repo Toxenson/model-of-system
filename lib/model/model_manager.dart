@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:nir/model/model.dart';
+import 'package:nir/model/model_knr.dart';
+import 'package:nir/model/model_kzo.dart';
 
 class ModelManager extends ChangeNotifier {
-  ModelKnr _model = ModelKnr();
+  ModelKnr _modelKnr = ModelKnr();
+  ModelKzo _modelKzo = ModelKzo();
   bool _play = true;
 
-  setModel(ModelKnr model) => _model = model;
-  ModelKnr get model => _model;
+  setModel(ModelKnr modelKnr, ModelKzo modelKzo) {
+    _modelKnr = modelKnr;
+    _modelKzo = modelKzo;
+  }
+
+  ModelKnr get modelKnr => _modelKnr;
+  ModelKzo get modelKzo => _modelKzo;
   bool get play => _play;
 
-  void updateModel(ModelKnr model) {
-    _model = model;
+  void updateModel(ModelKnr modelKnr, ModelKzo modelKzo) {
+    _modelKnr = modelKnr;
+    _modelKzo = modelKzo;
     notifyListeners();
   }
 
   void playPauseModel() {
     _play = !_play;
     if (_play) {
-      _model.runModel();
+      _modelKnr.runModel();
+      _modelKzo.runModel();
     }
     notifyListeners();
   }
 
   void playModel() {
     _play = true;
+    _modelKnr.runModel();
+    _modelKzo.runModel();
     notifyListeners();
   }
 
@@ -33,7 +44,8 @@ class ModelManager extends ChangeNotifier {
   }
 
   void restartModel() {
-    _model.restartModel();
+    _modelKnr.restartModel();
+    _modelKzo.restartModel();
     notifyListeners();
   }
 }
