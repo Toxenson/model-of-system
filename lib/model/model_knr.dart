@@ -58,7 +58,7 @@ class ModelKnr {
     outsideTemperature: -50,
   );
   final td = TemperatureDetector(
-    name: 'ДТ',
+    name: 'ДТЖ',
     requiredTemperatureMin: 20,
     requiredTemperatureMax: 40,
     koefOfTransit: 0,
@@ -81,7 +81,7 @@ class ModelKnr {
     pressure: 2000,
   );
   final lhe = LiquidHeatExchanger(
-      name: 'ЖЖТ1',
+      name: 'ЖЖТ',
       alf: 5,
       beta: 5,
       pressure: 2000,
